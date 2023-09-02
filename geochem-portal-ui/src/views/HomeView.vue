@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import Button from 'primevue/button'
 import Sidebar from 'primevue/sidebar'
 
 import Validator from '@/components/Validator.vue'
@@ -16,11 +15,13 @@ const visibleRight = ref(false)
       <h1 class="text-4xl pb-4">GSQ Geochemistry Data Validator</h1>
       <div class="grow"></div>
       <div class="block lg:hidden place-self-center">
-        <Button
+        <button
           icon="pi pi-info-circle"
           @click="visibleRight = true"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        ></Button>
+          class="border-0 text-white bg-[#225578] hover:bg-[#1c4764] cursor-pointer focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-3 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        >
+          <i class="pi pi-info-circle align-middle"></i>
+        </button>
       </div>
     </div>
 
