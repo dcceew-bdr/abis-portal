@@ -87,34 +87,6 @@ td {
   background-color: rgb(245, 245, 245);
 }
 
-.footer-contact-us-btn {
-  background-color: #c14213 !important;
-  border: 1px solid #c14213 !important;
-}
-
-.footer-contact-us-btn:hover {
-  background-color: #8e310e !important;
-  border: 1px solid #8e310e !important;
-}
-
-.footer-contact-us-btn:visited {
-  background-color: #8e310e !important;
-  border: 1px solid #c14213 !important;
-}
-
-.footer-contact-us-btn:visited:hover {
-  background-color: #8e310e !important;
-  border: 1px solid #8e310e !important;
-}
-
-.qgds__footer__heading {
-  font-size: 20px !important;
-  font-weight: 600 !important;
-  height: 40px !important;
-  line-height: 24px !important;
-  margin-block-end: 0px !important;
-}
-
 #nav-header > h2 {
   color: white !important;
 }

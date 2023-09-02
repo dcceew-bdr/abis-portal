@@ -156,4 +156,44 @@
 
 <style scoped>
 @import '/public/bootstrap.min.css';
+
+footer a {
+  text-decoration: underline 0.031rem solid !important;
+}
+
+footer a:hover {
+  text-decoration: none !important;
+}
+
+a.footer-contact-us-btn {
+  text-decoration: none !important;
+}
+
+.footer-contact-us-btn {
+  background-color: #c14213 !important;
+  border: 1px solid #c14213 !important;
+}
+
+.footer-contact-us-btn:hover {
+  background-color: #8e310e !important;
+  border: 1px solid #8e310e !important;
+}
+
+.footer-contact-us-btn:visited {
+  background-color: #8e310e !important;
+  border: 1px solid #c14213 !important;
+}
+
+.footer-contact-us-btn:visited:hover {
+  background-color: #8e310e !important;
+  border: 1px solid #8e310e !important;
+}
+
+.qgds__footer__heading {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  height: 40px !important;
+  line-height: 24px !important;
+  margin-block-end: 0px !important;
+}
 </style>
