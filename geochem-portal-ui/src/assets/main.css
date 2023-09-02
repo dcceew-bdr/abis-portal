@@ -1,0 +1,21 @@
+@import './base.css';
+
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+a:visited {
+  color: inherit;
+}
+
+a:active {
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline !important;
+}
