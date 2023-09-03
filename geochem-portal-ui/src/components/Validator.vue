@@ -1,42 +1,60 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import Textarea from 'primevue/textarea'
 import Dropdown from 'primevue/dropdown'
-import Message from 'primevue/message'
-import Accordion from 'primevue/accordion'
-import AccordionTab from 'primevue/accordiontab'
 import Fieldset from 'primevue/fieldset'
 import Button from 'primevue/button'
 import FileUpload from 'primevue/fileupload'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 
+import ValidationFailure from '@/components/examples/ValidationFailure.vue'
+import ValidationSuccess from '@/components/examples/ValidationSuccess.vue'
+
+type Example = {
+  name: string
+  value: string
+}
+
 const toast = useToast()
 
 const textareaValue = ref('')
 
-const selectedExample = ref()
+const selectedExample = ref<Example>()
 const examples = ref([
   {
     name: 'rock sample (valid)',
+    description: 'A valid rock sample in RDF Turtle.',
     value: `PREFIX : <https://example.com/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 
 :data-1
     a sosa:Sample ;
-    rdfs:label "A sample" ;
+    rdfs:label "A valid sample" ;
 .`
   },
-  { name: 'rock sample (invalid)', value: 'BR' }
+  {
+    name: 'rock sample (invalid)',
+    description: 'An invalid rock sample in RDF Turtle.',
+    value: `PREFIX : <https://example.com/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+
+:data-1
+    a sosa:Sample ;
+    rdfs:label "An invalid sample" ;
+.`
+  }
 ])
 
 const defaultValidator = { name: 'QLD Validator' }
 const selectedValidator = ref(defaultValidator)
 const validators = ref([defaultValidator])
+const validated = ref(false)
 
 const inputValue = computed(() => {
   if (selectedExample.value) {
@@ -46,13 +64,24 @@ const inputValue = computed(() => {
   }
 })
 
+const valid = computed(() => {
+  if (inputValue.value.includes('A valid sample')) {
+    return true
+  }
+  return false
+})
+
 const handleValidateButtonClick = () => {
-  console.log(inputValue.value)
+  validated.value = true
 }
 
 const onAdvancedUpload = () => {
   toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 })
 }
+
+watch([inputValue, selectedValidator], () => {
+  validated.value = false
+})
 </script>
 
 <template>
@@ -72,6 +101,18 @@ const onAdvancedUpload = () => {
               showClear
               class="ml-4"
             >
+              <template #value="slotProps">
+                <div v-if="slotProps.value">
+                  <div>{{ slotProps.value.name }}</div>
+                </div>
+                <div v-else="">
+                  {{ slotProps.placeholder }}
+                </div>
+              </template>
+              <template #option="slotProps">
+                <div class="font-medium">{{ slotProps.option.name }}</div>
+                <div>{{ slotProps.option.description }}</div>
+              </template>
             </Dropdown>
           </div>
 
@@ -130,37 +171,17 @@ const onAdvancedUpload = () => {
     </div>
 
     <Button
-      :disabled="!inputValue"
+      :disabled="!inputValue || !selectedValidator"
       @click="handleValidateButtonClick"
       class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
     >
       Validate
     </Button>
 
-    <div class="pt-8">
+    <div v-if="validated" class="pt-8">
       <hr />
-      <h2 class="text-2xl">Validation Results</h2>
-      <p>2 messages: 2 violations, 0 warnings, 0 infos</p>
-      <Message severity="error"
-        >For :data-1: The object MUST indicate the sample type as an IRI value using the property
-        geochem:sampleType.</Message
-      >
-      <Message severity="error"
-        >For :data-1: The object MUST indicate the sampling activity which created this sample using
-        the property sosa:isResultOf.</Message
-      >
-      <Accordion>
-        <AccordionTab header="Validation Report">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-            mollit anim id est laborum.
-          </p>
-        </AccordionTab>
-      </Accordion>
+      <ValidationSuccess v-if="valid" />
+      <ValidationFailure v-else />
     </div>
   </div>
 
@@ -175,6 +196,29 @@ const onAdvancedUpload = () => {
       >
         Submit data
       </Button>
+      <p><em>Data submission will be implemented at a later date.</em></p>
     </div>
   </div>
 </template>
+
+<style>
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  @apply text-[#225578] border-b-[#225578];
+}
+
+.p-button {
+  @apply bg-blue-700;
+}
+
+.p-fileupload-choose:not(.p-disabled):hover {
+  @apply bg-blue-800;
+}
+
+.p-button:enabled:hover {
+  @apply bg-blue-800;
+}
+
+div.p-dropdown-items-wrapper div.flex.align-items-center {
+  display: block !important;
+}
+</style>
