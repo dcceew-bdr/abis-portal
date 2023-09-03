@@ -30,7 +30,7 @@ jobs:
           npm run build
 
       - name: Upload UI artifacts
-        uses: actions/upload-pages-artifact
+        uses: actions/upload-pages-artifact@v2
         with:
           path: geochem-portal-ui/dist
 
