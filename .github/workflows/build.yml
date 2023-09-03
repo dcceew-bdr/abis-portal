@@ -27,7 +27,7 @@ jobs:
         run: |
           npm ci
           npm run type-check
-          npm run build-only --base=/${{ github.event.repository.name }}/
+          npm run build-only -- --base=/${{ github.event.repository.name }}/
 
       - name: Upload UI artifacts
         uses: actions/upload-pages-artifact@v2
