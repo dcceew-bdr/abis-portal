@@ -41,3 +41,14 @@ const visibleRight = ref(false)
     </div>
   </main>
 </template>
+
+<style>
+.p-sidebar .p-sidebar-header,
+.p-sidebar-content {
+  @apply bg-[#f8f8fa];
+}
+
+.p-sidebar .p-sidebar-content {
+  @apply px-0;
+}
+</style>
