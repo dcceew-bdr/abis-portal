@@ -20,8 +20,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: latest
-          cache: npm
+          node-version: 18
 
       - name: Build UI
         working-directory: geochem-portal-ui
