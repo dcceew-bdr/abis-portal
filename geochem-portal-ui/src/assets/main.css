@@ -5,15 +5,16 @@ body {
 }
 
 a {
+  color: #022a50 !important;
   text-decoration: none !important;
 }
 
 a:visited {
-  color: inherit;
+  color: #022a50 !important;
 }
 
 a:active {
-  color: inherit;
+  color: #022a50 !important;
 }
 
 a:hover {
