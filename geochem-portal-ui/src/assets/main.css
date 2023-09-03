@@ -4,17 +4,20 @@ body {
   margin: 0;
 }
 
+#content a {
+  color: #022a50;
+}
+
 a {
-  color: #022a50 !important;
   text-decoration: none !important;
 }
 
 a:visited {
-  color: #022a50 !important;
+  color: inherit;
 }
 
 a:active {
-  color: #022a50 !important;
+  color: inherit;
 }
 
 a:hover {
