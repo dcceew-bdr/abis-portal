@@ -12,7 +12,7 @@ const visibleRight = ref(false)
 <template>
   <main>
     <div class="flex">
-      <h1 class="text-4xl pb-4">GSQ Geochemistry Data Validator</h1>
+      <h1 class="text-4xl pb-4">GSQ Geochemistry Data Portal</h1>
       <div class="grow"></div>
       <div class="block lg:hidden place-self-center">
         <button

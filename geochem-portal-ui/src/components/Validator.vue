@@ -203,7 +203,7 @@ watch([inputValue, selectedValidator], () => {
 
 <style>
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
-  @apply text-[#225578] border-b-[#225578];
+  @apply text-[#414141] border-b-[#414141];
 }
 
 .p-button {
