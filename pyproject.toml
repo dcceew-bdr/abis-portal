@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "geochem-portal"
+version = "0.1.0"
+description = ""
+authors = ["Edmond Chuc <edmond@kurrawong.ai>"]
+readme = "README.md"
+packages = [{include = "geochem_portal"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pyshacl = "^0.23.0"
+fastapi = "^0.103.1"
+rdflib = ">=6.3.2,<7.0.0"
+uvicorn = "^0.23.2"
+
+
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.0"
+pytest = "^7.4.1"
+rich = "^13.5.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
