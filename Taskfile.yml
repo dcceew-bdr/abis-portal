@@ -7,6 +7,10 @@ tasks:
     cmds:
       - poetry run python main.py
 
+  dev:ui:
+    cmds:
+      - npm --prefix geochem-portal-ui run dev
+
   test:
     cmds:
       - poetry run pytest
