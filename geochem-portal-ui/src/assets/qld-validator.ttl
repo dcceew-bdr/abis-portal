@@ -1,0 +1,14 @@
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+<Requirement-example-1>
+    a sh:NodeShape ;
+    sh:targetClass sosa:Sample ;
+    sh:property [
+        sh:path rdfs:comment ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:message "In this example, all samples _MUST_ have an rdfs:comment."
+    ] ;
+.

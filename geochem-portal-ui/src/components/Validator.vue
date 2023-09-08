@@ -11,9 +11,9 @@ import FileUpload from 'primevue/fileupload'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 
-import ValidationFailure from '@/components/ValidationFailure.vue'
-import ValidationSuccess from '@/components/ValidationSuccess.vue'
+import ValidationResults from '@/components/ValidationResults.vue'
 import vocpub from '@/assets/vocpub.ttl?raw'
+import qldValidator from '@/assets/qld-validator.ttl?raw'
 import type { ValidationReport } from '@/types'
 
 type Example = {
@@ -37,6 +37,7 @@ PREFIX sosa: <http://www.w3.org/ns/sosa/>
 :data-1
     a sosa:Sample ;
     rdfs:label "A valid sample" ;
+    rdfs:comment "A comment about the valid sample." ;
 .`
   },
   {
@@ -67,10 +68,11 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   }
 ])
 
-const defaultValidator = { name: 'QLD Validator', value: examples.value[0].value }
+const defaultValidator = { name: 'QLD Validator', value: qldValidator }
 const selectedValidator = ref(defaultValidator)
 const validators = ref([defaultValidator, { name: 'VocPub Validator', value: vocpub }])
 const report = ref<ValidationReport | null>(null)
+const isValidating = ref(false)
 
 const inputValue = computed(() => {
   if (selectedExample.value) {
@@ -80,11 +82,10 @@ const inputValue = computed(() => {
   }
 })
 
-const valid = computed(() => {
-  return report.value?.conforms
-})
-
 const handleValidateButtonClick = async () => {
+  isValidating.value = true
+  report.value = null
+
   const response = await fetch('/api/v1/validate', {
     method: 'POST',
     headers: {
@@ -94,6 +95,7 @@ const handleValidateButtonClick = async () => {
   })
 
   report.value = await response.json()
+  isValidating.value = false
 }
 
 const onAdvancedUpload = () => {
@@ -192,17 +194,19 @@ watch([inputValue, selectedValidator], () => {
     </div>
 
     <Button
+      type="button"
       :disabled="!inputValue || !selectedValidator"
+      :loading="isValidating"
+      label="Validate"
+      icon="pi pi-wrench"
       @click="handleValidateButtonClick"
       class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
     >
-      Validate
     </Button>
 
     <div v-if="report" class="pt-8">
       <hr />
-      <ValidationSuccess v-if="valid" :report="report" />
-      <ValidationFailure v-else :report="report" />
+      <ValidationResults v-if="report" :report="report" />
     </div>
   </div>
 
