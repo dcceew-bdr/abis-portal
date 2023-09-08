@@ -3,7 +3,7 @@ const props = defineProps<{ large: boolean }>()
 </script>
 
 <template>
-  <aside class="lg:basis-1/3" :class="{ 'lg:block hidden': props.large }">
+  <aside class="lg:col-span-1" :class="{ 'lg:block hidden': props.large }">
     <article class="bg-[#f8f8fa] p-5">
       <h2 class="text-xl">Geochemistry Data System Documentation</h2>
 

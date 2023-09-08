@@ -25,8 +25,8 @@ const visibleRight = ref(false)
       </div>
     </div>
 
-    <div class="flex flex-row">
-      <article class="lg:basis-2/3">
+    <div class="grid grid-cols-3">
+      <article class="lg:col-span-2">
         <section>
           <div class="pt-4 pr-4">
             <Validator />
