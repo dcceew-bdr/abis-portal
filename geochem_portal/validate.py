@@ -27,6 +27,9 @@ class ValidationReport(BaseModel):
     conforms: bool
     results: list[ValidationResult]
     results_text: str
+    violation_count: int
+    warning_count: int
+    info_count: int
 
 
 severity_to_str = {
@@ -63,7 +66,7 @@ def validate(data: str, shacl_shapes: str) -> ValidationReport:
         allow_warnings=True,
     )
 
-    results = []
+    results: list[ValidationResult] = []
 
     validation_result_nodes = results_graph.subjects(RDF.type, SH.ValidationResult)
     for result_node in validation_result_nodes:
@@ -82,6 +85,22 @@ def validate(data: str, shacl_shapes: str) -> ValidationReport:
             )
         )
 
+    violation_count = 0
+    warning_count = 0
+    info_count = 0
+    for result in results:
+        if result.severity == "violation":
+            violation_count += 1
+        if result.severity == "warning":
+            warning_count += 1
+        if result.severity == "info":
+            info_count += 1
+
     return ValidationReport(
-        conforms=conforms, results=results, results_text=results_text
+        conforms=conforms,
+        results=results,
+        results_text=results_text,
+        violation_count=violation_count,
+        warning_count=warning_count,
+        info_count=info_count,
     )

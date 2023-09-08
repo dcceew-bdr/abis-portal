@@ -9,4 +9,7 @@ export interface ValidationReport {
   conforms: boolean
   results: ValidationResult[]
   results_text: string
+  violation_count: number
+  warning_count: number
+  info_count: number
 }
