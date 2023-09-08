@@ -9,6 +9,8 @@ class ParseError(Exception):
 
 class ValidationResult(BaseModel):
     severity: constr(pattern="^(info|warning|violation)$")
+    focus_node: str
+    result_path: str
     message: str
 
     def __eq__(self, __value: object) -> bool:
@@ -67,9 +69,18 @@ def validate(data: str, shacl_shapes: str) -> ValidationReport:
     for result_node in validation_result_nodes:
         severity_iri = results_graph.value(result_node, SH.resultSeverity)
         severity = severity_to_str[severity_iri]
+        focus_node = results_graph.value(result_node, SH.focusNode)
+        result_path = results_graph.value(result_node, SH.resultPath)
         message = results_graph.value(result_node, SH.resultMessage)
 
-        results.append(ValidationResult(severity=severity, message=str(message)))
+        results.append(
+            ValidationResult(
+                severity=severity,
+                focus_node=focus_node,
+                result_path=result_path,
+                message=str(message),
+            )
+        )
 
     return ValidationReport(
         conforms=conforms, results=results, results_text=results_text
