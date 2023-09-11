@@ -25,7 +25,7 @@ const visibleRight = ref(false)
       </div>
     </div>
 
-    <div class="grid grid-cols-3">
+    <div class="lg:grid lg:grid-cols-3">
       <article class="lg:col-span-2">
         <section>
           <div class="pt-4 pr-4">
