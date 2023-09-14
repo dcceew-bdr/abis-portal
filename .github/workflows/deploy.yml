@@ -56,3 +56,10 @@ jobs:
 
       - name: Upload lambda artifact
         run: aws lambda update-function-code --function-name=gsq-geochem-portal --zip-file=fileb://lambda.zip
+
+      - name: "Upload Artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: lambda.zip
+          path: lambda.zip
+          retention-days: 1
