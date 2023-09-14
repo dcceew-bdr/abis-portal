@@ -5,19 +5,26 @@ on:
     branches:
       - main
 
+env:
+  NODE_VERSION: "18"
+  PYTHON_VERSION: "3.11"
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: arduino/setup-task@v1
-        with:
-          version: 3.x
-
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -25,7 +32,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-2
 
-      - name: Package AWS Lambda artifact
-        run: task lambda:zip
+      - name: Build UI app
+        run: |
+          npm --prefix geochem-portal-ui ci
+          npm --prefix geochem-portal-ui run build
 
-      - run: aws lambda update-function-code --function-name=gsq-geochem-portal --zip-file=fileb://lambda.zip
+      - name: Copy UI build output to Python app
+        run: |
+          rm -r geochem_portal/static
+          cp -r geochem-portal-ui/dist geochem_portal/static
+
+      - name: Install Python dependencies
+        run: poetry install
+
+      - name: Package AWS Lambda artifact
+        run: |
+          (cd .venv/lib/python3.11/site-packages; zip ../../.././../lambda.zip -r .)
+          zip -r lambda.zip -u lambda_function.py geochem_portal
+
+      - name: Upload lambda artifact
+        run: aws lambda update-function-code --function-name=gsq-geochem-portal --zip-file=fileb://lambda.zip
