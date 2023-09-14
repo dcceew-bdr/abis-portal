@@ -1,0 +1,31 @@
+name: Deploy to AWS Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - uses: aws-actions/configure-aws-credentials@vv
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Package AWS Lambda artifact
+        run: task lambda:zip
+
+      - run: aws lambda update-function-code --function-name=gsq-geochem-portal --zip-file=fileb://lambda.zip

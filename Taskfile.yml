@@ -14,3 +14,37 @@ tasks:
   test:
     cmds:
       - poetry run pytest
+
+  lambda:zip:
+    desc: This is intended to be run inside a Linux environment for building the lambda zip artifact.
+    cmds:
+      - rm dist/*.zip
+      - cp -r static geochem_portal/
+      - poetry install
+      - (cd .venv/lib/python3.11/site-packages; zip ../../.././../lambda.zip -r .)
+      - zip -r lambda.zip -u lambda_function.py geochem_portal
+      - mkdir -p dist
+      - cp lambda.zip dist/lambda.zip
+    ignore_error: true
+
+  lambda:container:build:
+    cmds:
+      - docker build -f lambda.Dockerfile -t python-lambda .
+      - task: lambda:container
+    ignore_error: true
+
+  lambda:container:
+    cmds:
+      - |
+        docker run \
+          --rm \
+          -it \
+          -v ./dist:/app/dist \
+          -v ./lambda_function.py:/app/lambda_function.py \
+          -v ./pyproject.toml:/app/pyproject.toml \
+          -v ./poetry.lock:/app/poetry.lock \
+          -v ./poetry.toml:/app/poetry.toml \
+          -v ./Taskfile.yml:/app/Taskfile.yml \
+          python-lambda \
+          /bin/bash
+    ignore_error: true
