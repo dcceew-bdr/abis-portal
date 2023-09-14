@@ -2,7 +2,7 @@
 
 This repository contains the backend web API service and the web UI for the GSQ Geochemistry Portal.
 
-It is deployed on AWS with serverless technologies and currently accessible at https://geochem.dev.kurrawong.ai during development.
+A development version of the portal is deployed in AWS using serverless technologies at https://geochem.dev.kurrawong.ai.
 
 ![AWS Architecture Diagram](static/aws-architecture.svg)
 
