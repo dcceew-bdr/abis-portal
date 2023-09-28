@@ -1,10 +1,13 @@
-from pathlib import Path
+import time
+import asyncio
 
+import httpx
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from rdflib import Graph
 
 from geochem_portal.validate import validate, ParseError
+from geochem_portal.queries import get_oc_to_o_query
 
 router = APIRouter()
 
@@ -14,7 +17,13 @@ class ValidateIn(BaseModel):
     shacl_shapes: str
 
 
-def process_and_load_background_data(data: str) -> str:
+async def fetch(client: httpx.AsyncClient, url: str) -> str:
+    response = await client.get(url)
+    response.raise_for_status()
+    return response.text
+
+
+async def process_and_load_background_data(data: str) -> str:
     """Process data and load background data for geochemistry validation.
 
     The incoming data is processed with a SPARQL query before
@@ -27,22 +36,39 @@ def process_and_load_background_data(data: str) -> str:
     graph = Graph()
     graph.parse(data=data)
 
-    with open(
-        "geochem_portal/data_files/oc-to-o.sparql", "r", encoding="utf-8"
-    ) as file:
-        graph.update(file.read())
+    query = get_oc_to_o_query()
+    graph.update(query)
 
-    files = Path("geochem_portal/data_files").glob("**/*.ttl")
-    for file in files:
-        graph.parse(file)
+    # TODO: hardcoded commit
+    commit = "ab38732e128669989f14aba3b52eb88a5f01d1d8"
+    base_cdn_url = "https://cdn.jsdelivr.net/gh/Kurrawong/gsq-geochem-spec@"
 
+    files = [
+        "/vocabs/analytical-methods-for-geochemistry.ttl",
+        "/vocabs/geou.ttl",
+        "/vocabs/idn-role-codes.ttl",
+        "/vocabs/observable-properties.ttl",
+        "/vocabs/sample-types.ttl",
+    ]
+
+    print("Fetching external data sources.")
+    starttime = time.time()
+    async with httpx.AsyncClient() as client:
+        urls = [f"{base_cdn_url}{commit}{file}" for file in files]
+        tasks = [fetch(client, url) for url in urls]
+        results = await asyncio.gather(*tasks)
+
+        for result in results:
+            graph.parse(data=result)
+
+    print(f"Done fetching. Time taken: {time.time() - starttime:.2f} seconds.")
     return graph.serialize(format="turtle")
 
 
 @router.post("/validate")
-def validate_route(validate_in_data: ValidateIn):
+async def validate_route(validate_in_data: ValidateIn):
     try:
-        data = process_and_load_background_data(validate_in_data.data)
+        data = await process_and_load_background_data(validate_in_data.data)
         report = validate(data, validate_in_data.shacl_shapes)
     except ParseError as err:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, str(err))

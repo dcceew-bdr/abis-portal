@@ -13,12 +13,14 @@ fastapi = "^0.103.1"
 rdflib = ">=6.3.2,<7.0.0"
 uvicorn = "^0.23.2"
 mangum = "^0.17.0"
+httpx = "^0.25.0"
 
 
 [tool.poetry.group.dev.dependencies]
 python-dotenv = "^1.0.0"
 pytest = "^7.4.1"
 rich = "^13.5.2"
+black = "^23.9.1"
 
 [build-system]
 requires = ["poetry-core"]
