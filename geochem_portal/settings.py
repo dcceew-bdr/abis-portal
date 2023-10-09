@@ -1,12 +1,6 @@
 from importlib import metadata
-from os import environ
 
-try:
-    from dotenv import load_dotenv
-
-    load_dotenv()
-except ImportError:
-    ...
+from pydantic_settings import BaseSettings
 
 
 def get_version() -> str:
@@ -18,8 +12,13 @@ def get_version() -> str:
     return version
 
 
-class Settings:
-    GEOCHEM_PORTAL_VERSION = get_version()
-    GEOCHEM_PORTAL_STATIC_DIR = environ.get(
-        "GEOCHEM_PORTAL_STATIC_DIR", "geochem_portal/static"
+class Settings(BaseSettings):
+    geochem_portal_version: str = get_version()
+    geochem_portal_static_dir: str = "geochem_portal/static"
+    geochem_spec_version: str = "8508db14ff87276349f2658cf536efef5c1cf626"
+    geochem_spec_base_cdn: str = (
+        "https://cdn.jsdelivr.net/gh/Kurrawong/gsq-geochem-spec@"
     )
+
+
+settings = Settings(_env_file=".env")
