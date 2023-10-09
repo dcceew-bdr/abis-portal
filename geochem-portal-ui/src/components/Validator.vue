@@ -27,6 +27,13 @@ const activeTab = ref(0)
 const textareaValue = ref('')
 const fileInput = ref(null)
 const fileSelected = ref(false)
+const formatValues = [
+  { name: 'JSON', value: 'application/json' },
+  { name: 'JSON-LD', value: 'application/ld+json' },
+  { name: 'RDF Turtle', value: 'text/turtle' },
+  { name: 'Excel', value: 'application/vnd.ms-excel' }
+]
+const formatValue = ref(formatValues[0])
 
 const selectedExample = ref<Example>()
 const examples = ref(examplesData)
@@ -55,7 +62,11 @@ const handleValidateButtonClick = async () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ data: inputValue.value, shacl_shapes: selectedValidator.value.value })
+      body: JSON.stringify({
+        data: inputValue.value,
+        shacl_shapes: selectedValidator.value.value,
+        format: formatValue.value.value
+      })
     })
 
     if (response.status == 200) {
@@ -169,6 +180,12 @@ const handleTabChange = (event, tabIndex) => {
         </TabPanel>
       </TabView>
     </Fieldset>
+
+    <div>
+      Input format:
+      <Dropdown v-model="formatValue" :options="formatValues" optionLabel="name" class="ml-4">
+      </Dropdown>
+    </div>
 
     <div>
       Validate data with:
