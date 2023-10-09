@@ -88,7 +88,6 @@ async def validate_route(validate_in_data: ValidateIn):
                 )
 
         report = validate(data, validate_in_data.shacl_shapes, media_type.value)
-        print(fetch.cache_info())
     except ParseError as err:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, str(err)) from err
     except JSONSchemaValidationError as err:
