@@ -64,6 +64,7 @@ def validate(data: str, shacl_shapes: str, format: str) -> ValidationReport:
         shacl_graph=shacl_graph,
         allow_infos=True,
         allow_warnings=True,
+        advanced=True,
     )
 
     results: list[ValidationResult] = []
