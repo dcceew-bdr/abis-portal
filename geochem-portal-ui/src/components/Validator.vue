@@ -49,20 +49,26 @@ const handleValidateButtonClick = async () => {
   isValidating.value = true
   report.value = null
 
-  const response = await fetch('/api/v1/validate', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ data: inputValue.value, shacl_shapes: selectedValidator.value.value })
-  })
+  try {
+    const response = await fetch('/api/v1/validate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: inputValue.value, shacl_shapes: selectedValidator.value.value })
+    })
 
-  report.value = await response.json()
+    if (response.status == 200) {
+      report.value = await response.json()
+    } else {
+      throw new Error(
+        `Request to the server failed with status ${response.status}. Response: ${response.statusText}`
+      )
+    }
+  } catch (err) {
+    toast.add({ severity: 'danger', summary: 'Error', detail: err })
+  }
   isValidating.value = false
-}
-
-const onAdvancedUpload = () => {
-  toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 })
 }
 
 watch([inputValue, selectedValidator], () => {
@@ -95,6 +101,7 @@ const handleTabChange = (event, tabIndex) => {
 </script>
 
 <template>
+  <Toast sticky />
   <div class="space-y-6">
     <p>Validate geochemistry data via text input or file upload.</p>
 
@@ -149,7 +156,6 @@ const handleTabChange = (event, tabIndex) => {
 
         <TabPanel header="File">
           <div class="card">
-            <Toast />
             <input
               ref="fileInput"
               type="file"
@@ -229,5 +235,13 @@ const handleTabChange = (event, tabIndex) => {
 
 div.p-dropdown-items-wrapper div.flex.align-items-center {
   display: block !important;
+}
+
+.p-toast {
+  @apply opacity-100;
+}
+
+.p-toast .p-toast-message {
+  @apply bg-white opacity-100;
 }
 </style>
