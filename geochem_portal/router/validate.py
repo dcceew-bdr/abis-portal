@@ -52,7 +52,7 @@ async def process_and_load_background_data(data: str) -> str:
     ]
 
     print("Fetching external data sources.")
-    starttime = time.time()
+    start_time = time.time()
     async with httpx.AsyncClient() as client:
         urls = [f"{base_cdn_url}{commit}{file}" for file in files]
         tasks = [fetch(client, url) for url in urls]
@@ -61,7 +61,7 @@ async def process_and_load_background_data(data: str) -> str:
         for result in results:
             graph.parse(data=result)
 
-    print(f"Done fetching. Time taken: {time.time() - starttime:.2f} seconds.")
+    print(f"Done fetching. Time taken: {time.time() - start_time:.2f} seconds.")
     return graph.serialize(format="turtle")
 
 
