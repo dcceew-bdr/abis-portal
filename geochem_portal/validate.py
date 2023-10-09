@@ -39,7 +39,7 @@ severity_to_str = {
 }
 
 
-def validate(data: str, shacl_shapes: str) -> ValidationReport:
+def validate(data: str, shacl_shapes: str, format: str) -> ValidationReport:
     """Validate RDF Turtle data with the supplied SHACL shapes.
 
     This is a wrapper function around `pyshacl.validate` to simplify the function signature.
@@ -50,7 +50,7 @@ def validate(data: str, shacl_shapes: str) -> ValidationReport:
 
     data_graph = Graph()
     try:
-        data_graph.parse(data=data, format="text/turtle")
+        data_graph.parse(data=data, format=format)
     except Exception as err:
         raise ParseError(f"Failed to parse input data. {err}")
     shacl_graph = Graph()
