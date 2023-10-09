@@ -72,8 +72,9 @@ const handleValidateButtonClick = async () => {
     if (response.status == 200) {
       report.value = await response.json()
     } else {
+      const data = await response.json()
       throw new Error(
-        `Request to the server failed with status ${response.status}. Response: ${response.statusText}`
+        `Request to the server failed with status ${response.status}. Message: ${data['detail']}`
       )
     }
   } catch (err) {
@@ -112,7 +113,7 @@ const handleTabChange = (event, tabIndex) => {
 </script>
 
 <template>
-  <Toast sticky />
+  <Toast />
   <div class="space-y-6">
     <p>Validate geochemistry data via text input or file upload.</p>
 
