@@ -11,7 +11,10 @@ from geochem_portal.fetch import fetch
 from geochem_portal.validate import validate, ParseError
 from geochem_portal.queries import get_oc_to_o_query
 from geochem_portal.settings import settings
-from geochem_portal.validate_json import json_to_rdf, ValidationError as JSONSchemaValidationError
+from geochem_portal.validate_json import (
+    json_to_rdf,
+    ValidationError as JSONSchemaValidationError,
+)
 
 router = APIRouter()
 
@@ -80,13 +83,17 @@ async def validate_route(validate_in_data: ValidateIn):
                 data = await json_to_rdf(validate_in_data.data)
                 media_type = SupportedFormats.JSON_LD_FORMAT
             case media_type:
-                data = await process_and_load_background_data(validate_in_data.data, media_type.value)
+                data = await process_and_load_background_data(
+                    validate_in_data.data, media_type.value
+                )
 
         report = validate(data, validate_in_data.shacl_shapes, media_type.value)
     except ParseError as err:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, str(err)) from err
     except JSONSchemaValidationError as err:
-        raise HTTPException(status.HTTP_400_BAD_REQUEST, "JSON Schema validation failed.") from err
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST, "JSON Schema validation failed."
+        ) from err
     except Exception as err:
         raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, str(err)) from err
 
