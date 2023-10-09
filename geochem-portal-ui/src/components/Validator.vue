@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import type { Ref } from 'vue'
 
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
@@ -25,7 +26,7 @@ const toast = useToast()
 
 const activeTab = ref(0)
 const textareaValue = ref('')
-const fileInput = ref(null)
+const fileInput: Ref<HTMLInputElement | null> = ref(null)
 const fileSelected = ref(false)
 const formatValues = [
   { name: 'JSON', value: 'application/json' },
@@ -35,7 +36,7 @@ const formatValues = [
 ]
 const formatValue = ref(formatValues[0])
 
-const selectedExample = ref<Example>()
+const selectedExample = ref<Example | null>(null)
 const examples = ref(examplesData)
 
 const defaultValidator = { name: 'QLD Validator', value: qldValidator }
@@ -78,7 +79,7 @@ const handleValidateButtonClick = async () => {
       )
     }
   } catch (err) {
-    toast.add({ severity: 'danger', summary: 'Error', detail: err })
+    toast.add({ severity: 'error', summary: 'Error', detail: err })
   }
   isValidating.value = false
 }
@@ -87,9 +88,11 @@ watch([inputValue, selectedValidator], () => {
   report.value = null
 })
 
-const handleFileInput = async (event) => {
-  const file = event.target.files[0]
-  if (file) {
+const handleFileInput = async (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const files = target.files
+  if (files && files.length > 0) {
+    const file = files[0]
     textareaValue.value = await file.text()
     fileSelected.value = true
   } else {
@@ -100,14 +103,20 @@ const handleFileInput = async (event) => {
 
 const handleFileInputClearClick = () => {
   textareaValue.value = ''
-  fileInput.value.value = ''
+  if (fileInput.value) {
+    fileInput.value.value = ''
+  }
+
   fileSelected.value = false
 }
 
-const handleTabChange = (event, tabIndex) => {
+const handleTabChange = (event: Event, tabIndex: Number) => {
   textareaValue.value = ''
   selectedExample.value = null
-  fileInput.value.value = ''
+  if (fileInput.value) {
+    fileInput.value.value = ''
+  }
+
   fileSelected.value = false
 }
 </script>
@@ -118,7 +127,7 @@ const handleTabChange = (event, tabIndex) => {
     <p>Validate geochemistry data via text input or file upload.</p>
 
     <Fieldset legend="Input">
-      <TabView v-model:activeIndex="activeTab" @tab-change="handleTabChange">
+      <TabView v-model:activeIndex="activeTab" @tabChange="handleTabChange">
         <TabPanel header="Text">
           <div>
             Optionally load an example:
