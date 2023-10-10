@@ -92,7 +92,7 @@ async def validate_route(validate_in_data: ValidateIn):
         raise HTTPException(status.HTTP_400_BAD_REQUEST, str(err)) from err
     except JSONSchemaValidationError as err:
         raise HTTPException(
-            status.HTTP_400_BAD_REQUEST, "JSON Schema validation failed."
+            status.HTTP_400_BAD_REQUEST, f"JSON Schema validation failed. {err}"
         ) from err
 
     return report
