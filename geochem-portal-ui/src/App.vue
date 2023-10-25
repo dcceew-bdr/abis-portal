@@ -44,9 +44,7 @@ const globalCss = import.meta.env.BASE_URL + 'globals.css'
 .nav-border {
   border-bottom: 8px solid #c14213;
 }
-</style>
 
-<style scoped>
 .router-link-active {
   font-weight: bold;
 }
