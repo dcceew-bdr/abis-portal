@@ -39,12 +39,6 @@ const globalCss = import.meta.env.BASE_URL + 'globals.css'
 </template>
 
 <style scoped>
-@import '/public/bootstrap.min.css';
-
-.nav-border {
-  border-bottom: 8px solid #c14213;
-}
-
 .router-link-active {
   font-weight: bold;
 }
@@ -61,31 +55,5 @@ footer {
 
 td {
   padding: 10px !important;
-}
-
-#page-heading > h1 {
-  color: rgb(242, 242, 242);
-}
-
-.qgds__header-brand-image {
-  color: #022a50;
-}
-
-.qgds__header-brand-sitename:hover {
-  color: #022a50;
-}
-
-.qgds__header__pre-header-url {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-}
-
-.prez-app > main {
-  background-color: rgb(245, 245, 245);
-}
-
-#nav-header > h2 {
-  color: white !important;
 }
 </style>
