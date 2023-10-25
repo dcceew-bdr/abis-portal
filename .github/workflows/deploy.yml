@@ -8,6 +8,7 @@ on:
 env:
   NODE_VERSION: "18"
   PYTHON_VERSION: "3.11"
+  LAMBDA_FUNCTION_NAME: gsq-geochem-portal
 
 jobs:
   deploy:
@@ -55,4 +56,4 @@ jobs:
           zip -r lambda.zip -u lambda_function.py geochem_portal
 
       - name: Upload lambda artifact
-        run: aws lambda update-function-code --function-name=gsq-geochem-portal --zip-file=fileb://lambda.zip
+        run: aws lambda update-function-code --function-name=${{ env.LAMBDA_FUNCTION_NAME }} --zip-file=fileb://lambda.zip
