@@ -9,7 +9,7 @@
           >
             <div>
               <a href="/" title="Home" rel="home">
-                <div class="site-logo"><img src="/logo.svg" alt="Home" /></div>
+
               </a>
             </div>
           </div>

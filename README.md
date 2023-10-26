@@ -1,9 +1,21 @@
-# GSQ Geochemistry Portal
+# ABIS Portal
 
-This repository contains the backend web API service and the web UI for the GSQ Geochemistry Portal.
+This repository contains the backend web API service and the web UI for the ABIS Portal, a development version of which is online at <https://abis.dev.kurrawong.ai/>.
 
-A development version of the portal is deployed in AWS using serverless technologies at https://geochem.dev.kurrawong.ai.
+Future versions of this Portal will not be delivered at the above location.
 
+
+## Contact
+
+For all matters relating to this Portal, please contact:
+
+**Dr Nicholas Car**  
+_Delivery Manager_  
+Biodiversity Data Repository Project  
+Department of Climate Change, Energy, the Environment and Water  
+<nicholas.car@dcceew.gov.au> 
+
+## Technical Details
 ![AWS Architecture Diagram](static/aws-architecture.svg)
 
 ## Building for AWS Lambda
