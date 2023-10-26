@@ -18,15 +18,15 @@ const props = defineProps<{ large: boolean }>()
 
       <article>
         <h3 class="text-base">Profiles of ABIS</h3>
+        <p><em><RouterLink to="/profiles">What are Profiles?</RouterLink></em></p>
         <ul class="list-disc pl-[2rem]">
-          <li><a href="/profiles">What are Profiles?</a></li>
           <li><a href="http://linked.data.gov.au/def/abis" target="_blank">Biodiversity Data Repository Profile <i class="pi pi-external-link"></i></a></li>
         </ul>
       </article>
 
       <article>
         <h3 class="text-base">Vocabularies</h3>
-        <p><em>Vocabularies known to be needed to make valid ABIS data.</em></p>
+        <p><em><RouterLink to="/vocabs">What vocabularies does use of ABIS require?</RouterLink></em></p>
         <ul class="list-disc pl-[2rem]">
           <li><a href="https://linkeddata.tern.org.au/viewer/tern/vocabulary/" target="_blank">TERN Vocabularies <i class="pi pi-external-link"></i></a></li>
           <li>
@@ -41,6 +41,7 @@ const props = defineProps<{ large: boolean }>()
 
       <article>
         <h3 class="text-base">System Information</h3>
+        <p><em><RouterLink to="/system">What is this Portal system?</RouterLink></em></p>
         <ul class="list-disc pl-[2rem]">
           <li><a href="#">Portal Version 0.0.1</a></li>
         </ul>
