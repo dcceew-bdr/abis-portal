@@ -2884,6 +2884,7 @@ main nav.pager .pager a:hover {
 
 #header {
     background-color: #083A42;
+    height:50px;
 }
 
 #header a:focus {

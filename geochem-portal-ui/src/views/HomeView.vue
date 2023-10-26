@@ -29,6 +29,25 @@ const visibleRight = ref(false)
       <article class="lg:col-span-2">
         <section>
           <div class="pt-4 pr-4">
+            <div style="display:grid;">
+              <div style="grid-column:1; padding:5px;">
+                <h3>About</h3>
+                <p>This is a one-stop-shop for <a href="https://linked.data.gov.au/def/abis">ABIS - the Australian Biodiversity Information Standard</a> built for <a href="https://github.com/AusBIGG/">AusBIGG</a> by <a href="">BDR Project staff at DCCEEW</a>. For more information, contact them!</p>
+                <h4>Information about ABIS</h4>
+                <p>All you could want to know about ABIS is linked to on the right.</p>
+              </div>
+              <div style="grid-column:2; padding:5px;">
+                <h3>Uses</h3>
+                <h4>Validation</h4>
+                <p>Below you can validate ABIS data, using one of the several validators for ABIS and its profiles.</p>
+                <h4>Vocabularies</h4>
+                <p>Use of ABIS is dependent on many vocabularies. See the list of them to the right.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="pt-4 pr-4">
             <Validator />
           </div>
         </section>

@@ -24,7 +24,7 @@ const globalCss = import.meta.env.BASE_URL + 'globals.css'
             <RouterLink to="/">Home</RouterLink>
           </div>
           <div class="py-4">
-            <RouterLink to="/about">About</RouterLink>
+            <RouterLink to="/profiles">Profiles</RouterLink>
           </div>
         </nav>
       </div>

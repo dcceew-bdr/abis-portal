@@ -13,7 +13,9 @@ import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 
 import ValidationResults from '@/components/ValidationResults.vue'
-import qldValidator from '@/assets/qld-validator.ttl?raw'
+import abisCompoundedValidator from '@/assets/validators/abis-compounded.ttl?raw'
+import abisValidator from '@/assets/validators/abis.ttl?raw'
+import ternOntValidator from '@/assets/validators/tern.shapes.ttl?raw'
 import examplesData from '@/examples'
 import type { ValidationReport } from '@/types'
 
@@ -39,9 +41,10 @@ const formatValue = ref(formatValues[0])
 const selectedExample = ref<Example | null>(null)
 const examples = ref(examplesData)
 
-const defaultValidator = { name: 'QLD Validator', value: qldValidator }
+const defaultValidator = { name: 'ABIS Validator', value: abisCompoundedValidator }
+const otherValidators = { name: 'TERN Ont Validator', value: ternOntValidator }
 const selectedValidator = ref(defaultValidator)
-const validators = ref([defaultValidator])
+const validators = ref([defaultValidator, otherValidators])
 const report = ref<ValidationReport | null>(null)
 const isValidating = ref(false)
 
@@ -124,7 +127,7 @@ const handleTabChange = (event: Event, tabIndex: Number) => {
 <template>
   <Toast />
   <div class="space-y-6">
-    <p>Validate geochemistry data via text input or file upload.</p>
+    <h3>Validate Data</h3>
 
     <Fieldset legend="Input">
       <TabView v-model:activeIndex="activeTab" @tabChange="handleTabChange">
@@ -192,12 +195,6 @@ const handleTabChange = (event: Event, tabIndex: Number) => {
     </Fieldset>
 
     <div>
-      Input format:
-      <Dropdown v-model="formatValue" :options="formatValues" optionLabel="name" class="ml-4">
-      </Dropdown>
-    </div>
-
-    <div>
       Validate data with:
       <Dropdown
         v-model="selectedValidator"
@@ -227,20 +224,6 @@ const handleTabChange = (event: Event, tabIndex: Number) => {
     </div>
   </div>
 
-  <div class="pt-14 pb-8">
-    <hr />
-    <h2 class="text-2xl">Data Submission</h2>
-    <p>Input data can be submitted to GSQ if validation has no violations.</p>
-    <div class="pt-8">
-      <Button
-        disabled
-        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-      >
-        Submit data
-      </Button>
-      <p><em>Data submission will be implemented at a later date.</em></p>
-    </div>
-  </div>
 </template>
 
 <style>
