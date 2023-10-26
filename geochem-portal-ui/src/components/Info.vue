@@ -42,7 +42,7 @@ const props = defineProps<{ large: boolean }>()
       <article>
         <h3 class="text-base">System Information</h3>
         <ul class="list-disc pl-[2rem]">
-          <li><a href="#">Portal Version X.X.X</a></li>
+          <li><a href="#">Portal Version 0.0.1</a></li>
         </ul>
       </article>
     </article>
