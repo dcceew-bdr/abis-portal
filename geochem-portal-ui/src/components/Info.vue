@@ -10,9 +10,9 @@ const props = defineProps<{ large: boolean }>()
       <article>
         <h3 class="text-base">The Standard</h3>
         <ul class="list-disc pl-[2rem]">
-          <li><a href="http://linked.data.gov.au/def/abis/guidance" target="_blank">Guidance Document <i class="pi pi-external-link"></i></a></li>
-          <li><a href="http://linked.data.gov.au/def/abis/spec" target="_blank">Specification - Rules <i class="pi pi-external-link"></i></a></li>
-          <li><a href="http://linked.data.gov.au/def/abis" target="_blank">Standard Definition <i class="pi pi-external-link"></i></a></li>
+          <li><a href="http://linked.data.gov.au/def/abis/overview" target="_blank">ABIS Overview - 1-pager <i class="pi pi-external-link"></i></a></li>
+          <li><a href="http://linked.data.gov.au/def/abis/spec" target="_blank">ABSI Specification <i class="pi pi-external-link"></i></a></li>
+          <li><a href="http://linked.data.gov.au/def/abis" target="_blank">Standard Definition - all the ABIS parts <i class="pi pi-external-link"></i></a></li>
         </ul>
       </article>
 
@@ -20,7 +20,7 @@ const props = defineProps<{ large: boolean }>()
         <h3 class="text-base">Profiles of ABIS</h3>
         <p><em><RouterLink to="/profiles">What are Profiles?</RouterLink></em></p>
         <ul class="list-disc pl-[2rem]">
-          <li><a href="http://linked.data.gov.au/def/abis" target="_blank">Biodiversity Data Repository Profile <i class="pi pi-external-link"></i></a></li>
+          <li><a href="http://linked.data.gov.au/def/abis/spec#profile-bdr" target="_blank">Biodiversity Data Repository Profile <i class="pi pi-external-link"></i></a></li>
         </ul>
       </article>
 
@@ -44,6 +44,13 @@ const props = defineProps<{ large: boolean }>()
         <p><em><RouterLink to="/system">What is this Portal system?</RouterLink></em></p>
         <ul class="list-disc pl-[2rem]">
           <li><a href="#">Portal Version 0.0.1</a></li>
+        </ul>
+      </article>
+
+      <article>
+        <h3 class="text-base">Related Specifications</h3>
+        <ul class="list-disc pl-[2rem]">
+          <li><a href="https://kurrawong.github.io/nsl-model/spec.html">National Species List Data Model</a></li>
         </ul>
       </article>
     </article>
