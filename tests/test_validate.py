@@ -1,6 +1,6 @@
 import pytest
 
-from geochem_portal.validate import validate, ValidationReport, ValidationResult
+from abis_portal.validate import validate, ValidationReport, ValidationResult
 
 
 shacl_shape = """

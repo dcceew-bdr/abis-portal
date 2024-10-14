@@ -3,7 +3,7 @@ from textwrap import dedent
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from geochem_portal import router
+from abis_portal import router
 
 
 def register_routers(app: FastAPI) -> None:
@@ -27,7 +27,7 @@ def create_app() -> FastAPI:
         title="Geochemistry Portal API",
         description=dedent(
             """
-            GSQ Geochemistry Data Portal API provides functions to validate and submit geochemistry data.
+            GSQ Geochemistry Data Portal API provides functions to validate and submit abisistry data.
         """
         ),
     )

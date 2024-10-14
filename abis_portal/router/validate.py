@@ -7,11 +7,11 @@ from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from rdflib import Graph
 
-from geochem_portal.fetch import fetch
-from geochem_portal.validate import validate, ParseError
-from geochem_portal.queries import get_oc_to_o_query
-from geochem_portal.settings import settings
-from geochem_portal.validate_json import (
+from abis_portal.fetch import fetch
+from abis_portal.validate import validate, ParseError
+from abis_portal.queries import get_oc_to_o_query
+from abis_portal.settings import settings
+from abis_portal.validate_json import (
     json_to_rdf,
     ValidationError as JSONSchemaValidationError,
 )
@@ -33,7 +33,7 @@ class ValidateIn(BaseModel):
 
 
 async def process_and_load_background_data(data: str, media_type: str) -> str:
-    """Process data and load background data for geochemistry validation.
+    """Process data and load background data for abisistry validation.
 
     The incoming data is processed with a SPARQL query before
     loading additional background data. This function is intended to be
@@ -48,11 +48,11 @@ async def process_and_load_background_data(data: str, media_type: str) -> str:
     query = get_oc_to_o_query()
     graph.update(query)
 
-    commit = settings.geochem_spec_version
-    base_cdn_url = settings.geochem_spec_base_cdn
+    commit = settings.abis_spec_version
+    base_cdn_url = settings.abis_spec_base_cdn
 
     files = [
-        "profiles/gsq/vocabs/analytical-methods-for-geochemistry.ttl",
+        "profiles/gsq/vocabs/analytical-methods-for-abisistry.ttl",
         "profiles/gsq/vocabs/geou.ttl",
         "profiles/gsq/vocabs/idn-role-codes.ttl",
         "profiles/gsq/vocabs/observable-properties.ttl",

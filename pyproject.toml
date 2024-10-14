@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "geochem-portal"
+name = "abis-portal"
 version = "0.1.0"
 description = ""
 authors = ["Edmond Chuc <edmond@kurrawong.ai>"]
 readme = "README.md"
-packages = [{include = "geochem_portal"}]
+packages = [{include = "abis_portal"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"

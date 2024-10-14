@@ -1,0 +1,7 @@
+azure-functions
+fastapi
+rdflib
+pyshacl
+jsonschema
+httpx
+pydantic-settings

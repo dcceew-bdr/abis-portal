@@ -2,7 +2,7 @@ FROM node:18 AS ui-builder
 
 WORKDIR /app
 
-COPY geochem-portal-ui .
+COPY abis-portal-ui .
 RUN npm ci
 RUN npm run build
 
@@ -38,6 +38,6 @@ RUN curl -sSL https://install.python-poetry.org | python && \
 RUN sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
 
 COPY --from=ui-builder /app/dist /app/static
-COPY geochem_portal ./geochem_portal
+COPY abis_portal ./abis_portal
 # Keep Poetry install happy.
 COPY README.md .

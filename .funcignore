@@ -1,0 +1,8 @@
+.git*
+.vscode
+local.settings.json
+test
+.venv
+abis-portal-ui
+static
+tests

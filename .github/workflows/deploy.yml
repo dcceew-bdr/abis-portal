@@ -39,13 +39,13 @@ jobs:
 
       - name: Build UI app
         run: |
-          npm --prefix geochem-portal-ui ci
-          npm --prefix geochem-portal-ui run build
+          npm --prefix abis-portal-ui ci
+          npm --prefix abis-portal-ui run build
 
       - name: Copy UI build output to Python app
         run: |
-          rm -r geochem_portal/static
-          cp -r geochem-portal-ui/dist geochem_portal/static
+          rm -r abis_portal/static
+          cp -r abis-portal-ui/dist abis_portal/static
 
       - name: Install Python dependencies
         run: poetry install
@@ -53,7 +53,7 @@ jobs:
       - name: Package AWS Lambda artifact
         run: |
           (cd .venv/lib/python3.11/site-packages; zip ../../.././../lambda.zip -r .)
-          zip -r lambda.zip -u lambda_function.py geochem_portal
+          zip -r lambda.zip -u lambda_function.py abis_portal
 
       - name: Upload lambda artifact
         run: aws lambda update-function-code --function-name=${{ env.LAMBDA_FUNCTION_NAME }} --zip-file=fileb://lambda.zip
