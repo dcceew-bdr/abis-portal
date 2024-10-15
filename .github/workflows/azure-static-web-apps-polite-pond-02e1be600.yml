@@ -32,14 +32,8 @@ jobs:
           npm run build
           ls -R dist
 
-      - name: List directories
-        run: |
-          echo "Root directory:"
-          ls -R
-          echo "abis-portal-ui directory:"
-          ls -R ./abis-portal-ui
-          echo "abis-portal-ui/dist directory:"
-          ls -R ./abis-portal-ui/dist
+      - name: Copy robots.txt to dist
+        run: cp ./abis-portal-ui/robots.txt ./abis-portal-ui/dist/robots.txt
 
       - name: Build And Deploy
         id: builddeploy
