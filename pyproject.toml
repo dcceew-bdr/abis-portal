@@ -16,6 +16,7 @@ mangum = "^0.17.0"
 httpx = "^0.25.0"
 jsonschema = "^4.19.1"
 pydantic-settings = "^2.0.3"
+setuptools = "^75.2.0"
 
 
 [tool.poetry.group.dev.dependencies]

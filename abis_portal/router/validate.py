@@ -51,25 +51,25 @@ async def process_and_load_background_data(data: str, media_type: str) -> str:
     commit = settings.abis_spec_version
     base_cdn_url = settings.abis_spec_base_cdn
 
-    files = [
-        "profiles/gsq/vocabs/analytical-methods-for-abisistry.ttl",
-        "profiles/gsq/vocabs/geou.ttl",
-        "profiles/gsq/vocabs/idn-role-codes.ttl",
-        "profiles/gsq/vocabs/observable-properties.ttl",
-        "profiles/gsq/vocabs/sample-types.ttl",
-    ]
-
-    print("Fetching external data sources.")
-    start_time = time.time()
-    async with httpx.AsyncClient() as client:
-        urls = [f"{base_cdn_url}{commit}/{file}" for file in files]
-        tasks = [fetch(client, url) for url in urls]
-        results = await asyncio.gather(*tasks)
-
-        for result in results:
-            graph.parse(data=result)
-
-    print(f"Done fetching. Time taken: {time.time() - start_time:.2f} seconds.")
+    # files = [
+    #     "profiles/gsq/vocabs/analytical-methods-for-abisistry.ttl",
+    #     "profiles/gsq/vocabs/geou.ttl",
+    #     "profiles/gsq/vocabs/idn-role-codes.ttl",
+    #     "profiles/gsq/vocabs/observable-properties.ttl",
+    #     "profiles/gsq/vocabs/sample-types.ttl",
+    # ]
+    #
+    # print("Fetching external data sources.")
+    # start_time = time.time()
+    # async with httpx.AsyncClient() as client:
+    #     urls = [f"{base_cdn_url}{commit}/{file}" for file in files]
+    #     tasks = [fetch(client, url) for url in urls]
+    #     results = await asyncio.gather(*tasks)
+    #
+    #     for result in results:
+    #         graph.parse(data=result)
+    #
+    # print(f"Done fetching. Time taken: {time.time() - start_time:.2f} seconds.")
     return graph.serialize(format="turtle")
 
 

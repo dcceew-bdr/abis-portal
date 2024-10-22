@@ -13,7 +13,7 @@ import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 
 import ValidationResults from '@/components/ValidationResults.vue'
-import abisCompoundedValidator from '@/assets/validators/abis-compounded.ttl?raw'
+// import abisCompoundedValidator from '@/assets/validators/abis-compounded.ttl?raw'
 import abisValidator from '@/assets/validators/abis.ttl?raw'
 import ternOntValidator from '@/assets/validators/tern.shapes.ttl?raw'
 import examplesData from '@/examples'
@@ -36,12 +36,12 @@ const formatValues = [
   { name: 'RDF Turtle', value: 'text/turtle' },
   { name: 'Excel', value: 'application/vnd.ms-excel' }
 ]
-const formatValue = ref(formatValues[0])
+const formatValue = ref(formatValues[2])
 
 const selectedExample = ref<Example | null>(null)
 const examples = ref(examplesData)
 
-const defaultValidator = { name: 'ABIS Validator', value: abisCompoundedValidator }
+const defaultValidator = { name: 'ABIS Validator', value: abisValidator }
 const otherValidators = { name: 'TERN Ont Validator', value: ternOntValidator }
 const selectedValidator = ref(defaultValidator)
 const validators = ref([defaultValidator, otherValidators])
