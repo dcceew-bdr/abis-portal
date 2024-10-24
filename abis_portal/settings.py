@@ -15,9 +15,9 @@ def get_version() -> str:
 class Settings(BaseSettings):
     abis_portal_version: str = get_version()
     abis_portal_static_dir: str = "abis_portal/static"
-    abis_spec_version: str = "8508db14ff87276349f2658cf536efef5c1cf626"
+    abis_spec_version: str = "71e71bdd8c1e52588dd2761d9ebfae7f4171d48a"
     abis_spec_base_cdn: str = (
-        "https://cdn.jsdelivr.net/gh/Kurrawong/gsq-abis-spec@"
+        "https://cdn.jsdelivr.net/gh/AusBIGG/abis@"
     )
 
 

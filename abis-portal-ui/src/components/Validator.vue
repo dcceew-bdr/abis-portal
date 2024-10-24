@@ -13,9 +13,6 @@ import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 
 import ValidationResults from '@/components/ValidationResults.vue'
-import abisCompoundedValidator from '@/assets/validators/abis-compounded.ttl?raw'
-import abisValidator from '@/assets/validators/abis.ttl?raw'
-import ternOntValidator from '@/assets/validators/tern.shapes.ttl?raw'
 import examplesData from '@/examples'
 import type { ValidationReport } from '@/types'
 
@@ -36,15 +33,14 @@ const formatValues = [
   { name: 'RDF Turtle', value: 'text/turtle' },
   { name: 'Excel', value: 'application/vnd.ms-excel' }
 ]
-const formatValue = ref(formatValues[0])
+const formatValue = ref(formatValues[2])
 
 const selectedExample = ref<Example | null>(null)
 const examples = ref(examplesData)
 
-const defaultValidator = { name: 'ABIS Validator', value: abisCompoundedValidator }
-const otherValidators = { name: 'TERN Ont Validator', value: ternOntValidator }
+const defaultValidator = { name: 'BDR Validator' }
 const selectedValidator = ref(defaultValidator)
-const validators = ref([defaultValidator, otherValidators])
+const validators = ref([defaultValidator, {name: 'ABIS Validator'}, { name: 'TERN Ontology Validator' }])
 const report = ref<ValidationReport | null>(null)
 const isValidating = ref(false)
 
@@ -68,7 +64,7 @@ const handleValidateButtonClick = async () => {
       },
       body: JSON.stringify({
         data: inputValue.value,
-        shacl_shapes: selectedValidator.value.value,
+        shacl_shapes: selectedValidator.value.name,
         format: formatValue.value.value
       })
     })
