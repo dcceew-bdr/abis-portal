@@ -34,7 +34,7 @@ ont:
         [
             schema:name "SOSA" ;
             schema:url
-                "file://sosa.ttl" ;
+                 "file://sosa.ttl" ;
                 # "https://linked.data.gov.au/def/sosa-validator" ;
             schema:identifier "https://linked.data.gov.au/def/sosa-validator" ;
         ] ,

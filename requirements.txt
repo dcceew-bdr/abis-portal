@@ -1,7 +1,7 @@
 azure-functions
 fastapi
-rdflib
-pyshacl
+rdflib==7.0.0
+pyshacl==0.28.0
 jsonschema
 httpx
 pydantic-settings

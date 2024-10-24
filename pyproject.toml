@@ -8,9 +8,9 @@ packages = [{include = "abis_portal"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pyshacl = "^0.23.0"
+pyshacl = "^0.28.0"
 fastapi = "^0.103.1"
-rdflib = ">=6.3.2,<7.0.0"
+rdflib = ">=6.3.2,<7.1.0"
 uvicorn = "^0.23.2"
 mangum = "^0.17.0"
 httpx = "^0.25.0"
