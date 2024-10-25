@@ -9,7 +9,7 @@
   "routes": [
     {
       "route": "/api/*",
-      "rewrite": "https://abis-portal-api.azurewebsites.net"
+      "rewrite": "https://abis-portal-api.azurewebsites.net/api"
     },
     {
       "route": "/*",
