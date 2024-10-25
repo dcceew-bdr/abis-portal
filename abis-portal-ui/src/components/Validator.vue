@@ -24,6 +24,8 @@ type Example = {
 const toast = useToast()
 
 const activeTab = ref(0)
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || ''
+
 const textareaValue = ref('')
 const fileInput: Ref<HTMLInputElement | null> = ref(null)
 const fileSelected = ref(false)
@@ -57,7 +59,7 @@ const handleValidateButtonClick = async () => {
   report.value = null
 
   try {
-    const response = await fetch('/api/v1/validate', {
+    const response = await fetch(`${apiBaseUrl}/api/v1/validate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

@@ -8,10 +8,6 @@
   },
   "routes": [
     {
-      "route": "/api/*",
-      "rewrite": "https://abis-portal-api.azurewebsites.net/api"
-    },
-    {
       "route": "/*",
       "serve": "/index.html",
       "statusCode": 200
