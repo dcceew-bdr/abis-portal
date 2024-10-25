@@ -1,12 +1,15 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
+    "exclude": [
+      "/images/*.{png,jpg,gif}",
+      "/css/*"
+    ]
   },
   "routes": [
     {
       "route": "/api/*",
-      "rewrite": "https://abis-portal-api.azurewebsites.net"
+      "rewrite": "https://abis-portal-api.azurewebsites.net/api/v1"
     },
     {
       "route": "/*",
