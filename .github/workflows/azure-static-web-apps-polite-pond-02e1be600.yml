@@ -27,7 +27,7 @@ jobs:
 
       - name: Install and Build
         env:
-          VITE_API_BASE_URL: "https://abis-portal-api.azurewebsites.net/"
+          VITE_API_BASE_URL: "https://abis-portal-api.azurewebsites.net"
         working-directory: ./abis-portal-ui
         run: |
           npm ci
