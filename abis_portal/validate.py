@@ -1,6 +1,6 @@
-from rdflib import Graph, RDF, SH
-from pyshacl import validate as shacl_validate
 from pydantic import BaseModel, constr
+from pyshacl import validate as shacl_validate
+from rdflib import Graph, RDF, SH
 
 
 class ParseError(Exception):
@@ -15,9 +15,9 @@ class ValidationResult(BaseModel):
 
     def __eq__(self, __value: object) -> bool:
         if (
-            type(__value) == type(self)
-            and __value.severity == self.severity
-            and __value.message == self.message
+                type(__value) == type(self)
+                and __value.severity == self.severity
+                and __value.message == self.message
         ):
             return True
         return False
@@ -39,7 +39,13 @@ severity_to_str = {
 }
 
 
-def validate(data: str, shacl_shapes: str, format: str) -> ValidationReport:
+def validate(
+        data: str,
+        shacl_shapes: str,
+        format: str,
+        shacl_graph: Graph,
+
+) -> ValidationReport:
     """Validate RDF Turtle data with the supplied SHACL shapes.
 
     This is a wrapper function around `pyshacl.validate` to simplify the function signature.
@@ -62,12 +68,17 @@ def validate(data: str, shacl_shapes: str, format: str) -> ValidationReport:
         data_graph.parse(data=data, format=format)
     except Exception as err:
         raise ParseError(f"Failed to parse input data. {err}")
-    shacl_graph = Graph()
-    try:
-        with open(f"abis_portal/validators/{known_validators[shacl_shapes]}") as f:
-            shacl_graph.parse(f, format="text/turtle")
-    except Exception as err:
-        raise ParseError(f"Failed to parse SHACL shapes data. {err}")
+    # shacl_graph = Graph()
+    # try:
+    #     with open(f"abis_portal/validators/{known_validators[shacl_shapes]}") as f:
+    #         shacl_graph.parse(f, format="text/turtle")
+    #     rdflib_bool_patch()
+    #     loaded_sg = load_from_source(
+    #         shacl_graph, rdf_format="text/turtle", multigraph=True, do_owl_imports=True
+    #     )
+    #     rdflib_bool_unpatch()
+    # except Exception as err:
+    #     raise ParseError(f"Failed to parse SHACL shapes data. {err}")
     try:
         conforms, results_graph, results_text = shacl_validate(
             data_graph=data_graph,
@@ -75,7 +86,6 @@ def validate(data: str, shacl_shapes: str, format: str) -> ValidationReport:
             allow_infos=True,
             allow_warnings=True,
             advanced=True,
-            do_owl_imports=True
         )
     except Exception as err:
         raise ParseError(f"Failed to validate data. {err}")

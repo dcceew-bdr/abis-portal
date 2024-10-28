@@ -1,35 +1,17 @@
-import time
-import asyncio
-from enum import Enum
-
-import httpx
 from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel
 from rdflib import Graph
+from starlette.requests import Request
 
-from abis_portal.fetch import fetch
-from abis_portal.validate import validate, ParseError
+from abis_portal.models import SupportedFormats, ValidateIn
 from abis_portal.queries import get_oc_to_o_query
 from abis_portal.settings import settings
+from abis_portal.validate import validate, ParseError
 from abis_portal.validate_json import (
     json_to_rdf,
     ValidationError as JSONSchemaValidationError,
 )
 
 router = APIRouter()
-
-
-class SupportedFormats(Enum):
-    TURTLE_FORMAT = "text/turtle"
-    JSON_FORMAT = "application/json"
-    JSON_LD_FORMAT = "application/ld+json"
-    EXCEL_FORMAT = "application/vnd.ms-excel"
-
-
-class ValidateIn(BaseModel):
-    data: str
-    format: SupportedFormats
-    shacl_shapes: str
 
 
 async def process_and_load_background_data(data: str, media_type: str) -> str:
@@ -74,25 +56,37 @@ async def process_and_load_background_data(data: str, media_type: str) -> str:
 
 
 @router.post("/validate")
-async def validate_route(validate_in_data: ValidateIn):
+async def validate_route(
+        validate_data: ValidateIn,
+        request: Request
+):
     try:
-        match validate_in_data.format:
+        match validate_data.format:
             case SupportedFormats.EXCEL_FORMAT:
                 raise NotImplementedError("Excel format not supported yet.")
             case SupportedFormats.JSON_FORMAT:
-                data = await json_to_rdf(validate_in_data.data)
+                data = await json_to_rdf(validate_data.data)
                 media_type = SupportedFormats.JSON_LD_FORMAT
             case media_type:
                 data = await process_and_load_background_data(
-                    validate_in_data.data, media_type.value
+                    validate_data.data, media_type.value
                 )
 
-        report = validate(data, validate_in_data.shacl_shapes, media_type.value)
+        shacl_graph = request.app.state.shacl_graphs[validate_data.shacl_shapes]
+
+        report = validate(
+            data=data,
+            shacl_shapes=validate_data.shacl_shapes,
+            format=media_type.value,
+            shacl_graph=shacl_graph
+        )
+
+        return report
+
     except ParseError as err:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, str(err)) from err
     except JSONSchemaValidationError as err:
         raise HTTPException(
-            status.HTTP_400_BAD_REQUEST, f"JSON Schema validation failed. {err}"
+            status.HTTP_400_BAD_REQUEST,
+            f"JSON Schema validation failed. {err}"
         ) from err
-
-    return report
