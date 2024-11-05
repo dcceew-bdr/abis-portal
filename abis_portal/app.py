@@ -9,14 +9,15 @@ from rdflib import Graph
 from abis_portal import router
 import logging
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     app.state.shacl_graphs = {}
     known_validators = {
         "BDR Validator": "bdr-profile.ttl",
-        # "ABIS Validator": "abis.ttl",
-        # "TERN Ontology Validator": "tern.ttl",
+        "ABIS Validator": "abis.ttl",
+        "TERN Ontology Validator": "tern.ttl",
     }
 
     for validator_name, file_name in known_validators.items():

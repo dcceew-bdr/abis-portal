@@ -42,7 +42,7 @@ const examples = ref(examplesData)
 
 const defaultValidator = { name: 'BDR Validator' }
 const selectedValidator = ref(defaultValidator)
-const validators = ref([defaultValidator])  // , {name: 'ABIS Validator'}, { name: 'TERN Ontology Validator' }
+const validators = ref([defaultValidator   , {name: 'ABIS Validator'}, { name: 'TERN Ontology Validator' } ])
 const report = ref<ValidationReport | null>(null)
 const isValidating = ref(false)
 
